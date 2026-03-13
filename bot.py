@@ -6,7 +6,8 @@ import aiohttp
 import httpx
 import random
 
-TOKEN = "YOUR_TOKEN_HERE"  # set in .env or Railway variable
+import os
+TOKEN = os.environ.get("TOKEN", "YOUR_TOKEN_HERE")
 
 # Standing reward per completed quest
 QUEST_STANDING = 100
@@ -378,7 +379,7 @@ bot.setup_hook = setup_hook
 
 @bot.event
 async def on_ready():
-    guild = discord.Object(id=YOUR_GUILD_ID)  # replace before running
+    guild = discord.Object(id=int(os.environ.get("GUILD_ID", "0")))
     bot.tree.copy_global_to(guild=guild)
     await bot.tree.sync(guild=guild)
     if not check_warframe_news.is_running():
